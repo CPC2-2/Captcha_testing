@@ -49,3 +49,11 @@ input{
 #box_name_input{
     margin-bottom: 20px;
 }
+
+#show_error{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    color: red;
+}
