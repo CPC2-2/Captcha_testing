@@ -14,6 +14,7 @@ body{
 
 .form_box{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -56,4 +57,24 @@ input{
     justify-content: center;
     margin-top: 10px;
     color: red;
+}
+
+#chatpcha_container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    display: none;
+}
+
+#chatpcha_box{
+    margin-top: 10px;
+    border: 2px dotted gray;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+#captcha{
+    margin-top: 10px;
 }
