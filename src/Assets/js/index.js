@@ -14,6 +14,9 @@ let captcha =  document.getElementById("captcha");
 let Rexname = /^[A-Za-z]{2,30}$/;// regular expresion for name camp
 let Rexpassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;// regular expresion for password camp
 
+let generatedCaptcha = "";
+let numintentos = 0;
+
 namebox.addEventListener("input", (e) => {
     if (Rexname.test(namebox.value) === true) {
         namebox.style.border = "1px solid #17fa40";
@@ -34,10 +37,30 @@ passwordbox.addEventListener("input", (e) => {
 enviar.addEventListener("click", (e) => {
     e.preventDefault();
     if (Rexname.test(namebox.value) === true && Rexpassword.test(passwordbox.value) === true) {
-        chatpcha_box.style.display = "flex";
-        chatpcha_container.style.display = "flex";
         namebox.style.border = "1px solid gray";
         passwordbox.style.border = "1px solid gray";
+        if (generatedCaptcha === ""){
+            generatedCaptcha = generator();
+            mostrar_captcha.innerHTML = generatedCaptcha; // Muestra el captcha generado solo la primera vez
+            chatpcha_box.style.display = "flex";
+            chatpcha_container.style.display = "flex";
+        }else{
+            //comprueba el catpcha enviado por el user
+            if(captcha.value === generatedCaptcha){
+                alert("Captcha verificado correctamente. Enviando formulario...");
+            }else{
+                alert("Captcha incorrecto. Intente de nuevo");
+                generator(mostrar_captcha);
+                mostrar_captcha.innerHTML = generatedCaptcha; // Muestra el nuevo captcha
+                mostrar_captcha.innerHTML = ""; 
+                mostrar_captcha.innerHTML = generator(mostrar_captcha.innerHTML = generatedCaptcha);
+                numintentos++;
+                if (numintentos === 3){
+                    alert("Has tenido demasiados intentos se va a recargar la pagina");
+                    window.location.reload();
+                }
+            }
+        }
     }else{
         const wrongdata = document.createElement("h3");
         wrongdata.textContent = "Los datos no son correctos o no hay datos";
@@ -45,15 +68,8 @@ enviar.addEventListener("click", (e) => {
     }
 })
 
-//generator(mostrar_captcha);
-// if (captcha.value.length === 0){ // comprovamos si el captcha ha sido rellenado
-//     alert("Primero confirma acaba los siguientes datos");
-// }else{
-//     console.log("Comprobacion Correcta");
-// }
-
 //function generator 
-function generator(caja){
+function generator(){
     let chars = "1234567890abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKKLMNÑOPQRSTUVWXYZ!·$%&/()=ª123456789";
     let charslegnth = 7;
     let captcha = "";
@@ -64,5 +80,5 @@ function generator(caja){
         captcha += chars.charAt(random);
     }
     // una vez tenemos la cadena la presentamos por pantalla para verificar si es un humano
-    caja.innerHTML = captcha;
+    return captcha;
 }
